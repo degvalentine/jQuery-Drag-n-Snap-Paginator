@@ -38,7 +38,7 @@
 	<script type="text/javascript">
 	$(function() {
 		var list = $('#demo-list table').paginate({pageCount:6});
-		setTimeout(function(){list.paginate('next')}, 500);
+		setTimeout(function(){list.paginate('goto', 10)}, 500);
 		//$('button').button();
 	});
 	</script>
@@ -301,7 +301,7 @@
 			</tr>
 			<tr>
                   <td>zazabe</td>
-                  <td>">qBox plugin : sliding boxes</td>
+                  <td>Box plugin : sliding boxes</td>
                   <td><em>1 week</em> ago</td>
                   <td class="rating">5</td>
 			</tr>
