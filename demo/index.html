@@ -31,11 +31,14 @@
 	#demo-list-title h2 {
 		padding-left:10px;
 	}
+	#demo-list td {
+		height:40px;
+	}
 	</style>
 	<script type="text/javascript">
 	$(function() {
 		var list = $('#demo-list table').paginate({pageCount:6});
-		//setTimeout(function(){list.paginate('next')}, 1000);
+		setTimeout(function(){list.paginate('next')}, 500);
 		//$('button').button();
 	});
 	</script>
