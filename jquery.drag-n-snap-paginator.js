@@ -15,10 +15,10 @@
  * TODO make slide in initially to let user know interaction exists (configurable)
  */
 (function($){  
-	$.fn.paginate = function(arg) {  
-  
-		return this.each(function() {
-			widget = $(this);
+	$.fn.paginate = function(arg, i) {
+		var el = this;
+		return this.each(function(i, obj) {
+			widget = $(obj);
 			if (widget.data('isPaginated')) {
 				switch (arg) {
 					case 'next':
@@ -26,6 +26,9 @@
 						
 					case 'prev':
 						return widget.data('prev')();
+					
+					case 'goto':
+						return widget.data('goto')(i);
 					
 					default:
 						return widget;
@@ -35,10 +38,10 @@
 			}
 		});
 		
-		function initWidget(target, options) {
+		function initWidget(widget, options) {
 			
 			var defaults = {  
-				width: target.width(),  
+				width: widget.width(),  
 				pageCount: 5,
 				buttons: true,
 				itemClassName: 'list-item',
@@ -48,60 +51,60 @@
 				commonElements: []
 			};
 			
-			var widget, items;
+			var widget, container, items;
 			
 			// tables have special treatment
-			if (target.is('table')) {
+			// widget must not change type so future DOM selections retain attached data 
+			if (widget.is('table')) {
 				defaults.pageElement = 'table';
-				
-				// make widget a div
-				widget = $('<div/>')
-							.attr('id', target.attr('id'))
-							.attr('class', target.attr('class'));
-				
-				// make columns from thead
-				if (target.has('thead').length > 0) {
-					var thead = $('<table/>').appendTo(widget);
-					target.children('thead').find('th').each(function(){
-						$(this).css('width', $(this).width()+'px');
-						defaults.commonElements.push($('<col/>').width($(this).width())); // TODO copy all other th attrs
+
+				// make columns headers from <th> in first <tr>
+				var headers = widget.find('tr:first').children('th');
+				if (headers.length > 0) {
+					var headerRow = $('<tr/>');
+					var thead = $('<thead/>').append(headerRow);
+					headers.each(function(){
+						header = $(this);
+						header.css('width', header.width()+'px');
+						defaults.commonElements.push($('<col/>').width(header.width())); // TODO copy all other th attrs?
+						header.appendTo(headerRow);
 					});
-					target.children('thead').find('th').appendTo(thead);
-//					target.children('thead').remove();
 				}
+				widget.find('tr:first').has('th').remove();
+				//FIXME first row is empty!!
 				
-				// make items from tbody
-				if (target.children('tbody').length > 0) {
-					items = target.children('tbody').children('tr');
-//					target.children('tbody').remove();
-				} else {
-					items = target.children('tr');
-				}
 				
-				target.replaceWith(widget);
+				
+				
+				// get list items
+				var items = widget.find('tr');
+				container = $('<td/>').attr('colspan', headers.length + 1);
+				var tbody = $('<tbody/>').append($('<tr/>').append(container));
+				
+				widget.children('thead, tbody').remove();
+				widget.append(thead).append(tbody);
 				
 			// everything else
 			} else {
-				widget = target;
-				items = target.children();
+				container = widget;
+				items = widget.children();
 			}
 			
+			// TODO document this better - wrapping container in a div to act as mask because <td> overflow:hidden doesn't work 
+			container = $('<div>').addClass('mask').appendTo(container);
 			
-			
-			
-		    
 			var options = $.extend(defaults, options); 
 			
 			// init widget
 			widget.data('page', 0)
-			      .data('lastPage', Math.floor(items.length / options.pageCount))
-			      .css('overflow', 'hidden');
+			      .data('lastPage', Math.floor(items.length / options.pageCount));
+			container.css('overflow', 'hidden');
 			
 			// make list
 			var list = $('<div/>');
 			list.width(Math.ceil(items.length/options.pageCount) * (options.width + options.pageSpacing))
 			    .css('overflow', 'auto')
-			    .appendTo(widget);
+			    .appendTo(container);
 			
 			// populate list
 			var page;
@@ -126,30 +129,30 @@
 			});
 			
 			// add navigation functions to widget
-			var prev = function() {
-				if (widget.data('page') > 0) {
-					widget.data('page', widget.data('page') - 1);
-					list.animate({
-            			marginLeft: widget.data('page') * (options.width + options.pageSpacing) * -1
-        			}, 300);
+			var goToPage = function(i) {
+				if (i < 0 || i >= widget.data('last-page')) {
+					// TODO throw error
+					return;
 				}
+				widget.data('page', i);
+				list.animate({
+        			marginLeft: i * (options.width + options.pageSpacing) * -1
+    			}, 300);
 				widget.trigger('page-change');
+			}
+			widget.data('goto', goToPage);
+			var prev = function() {
+				goToPage(widget.data('page') - 1);
 			};
 			widget.data('prev', prev);
 			var next = function(){
-				if (widget.data('page') < widget.data('lastPage')) {
-					widget.data('page', widget.data('page') + 1);
-					list.animate({
-            			marginLeft: widget.data('page') * (options.width + options.pageSpacing) * -1
-        			}, 300);
-				}
-				widget.trigger('page-change');
+				goToPage(widget.data('page') + 1);
 			};
 			widget.data('next', next);
 			
 			// add buttons
 			if (options.buttons) {
-				var buttons = $('<div/>').addClass('nav-buttons').appendTo(widget);
+				var buttons = $('<div/>').addClass('nav-buttons').appendTo(container);
 				var prevBtn = $('<button>prev</button>').appendTo(buttons);
 				var nextBtn = $('<button>next</button>').appendTo(buttons);
 				var refreshButtons = function() {
@@ -175,8 +178,8 @@
 			}
 			
 			// configure widget
-			widget.width(list.children(':first').outerWidth())
-			      .data('isPaginated', true);
+			container.width(list.children(':first').outerWidth());
+			widget.data('isPaginated', true);
 			
 		};
 		
