@@ -15,7 +15,7 @@
  * TODO make slide in initially to let user know interaction exists (configurable)
  */
 (function($){  
-	$.fn.paginate = function(arg, i) {
+	$.fn.paginate = function(arg, arg2) {
 		var el = this;
 		return this.each(function(i, obj) {
 			widget = $(obj);
@@ -28,7 +28,7 @@
 						return widget.data('prev')();
 					
 					case 'goto':
-						return widget.data('goto')(i);
+						return widget.data('goto')(arg2);
 					
 					default:
 						return widget;
@@ -130,6 +130,7 @@
 			
 			// add navigation functions to widget
 			var goToPage = function(i) {
+				console.log(i);
 				if (i < 0 || i >= widget.data('last-page')) {
 					// TODO throw error
 					return;
