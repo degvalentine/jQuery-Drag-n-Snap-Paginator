@@ -11,6 +11,8 @@
  * TODO document custom events: page-change, drag, snap
  * TODO add custom event on method call?
  * TODO refactor to functions more
+ * TODO add animation easing with small bounce (does iPhone do this too?)
+ * TODO add flick? scroll speed would start at release velocity and decline till it snaps
  */
 (function($){  
 $.fn.paginate = function(arg, arg2) {
@@ -36,6 +38,8 @@ $.fn.paginate = function(arg, arg2) {
 					if ($.type(arg2) == 'number')
 						return widget.data('goto')(arg2);
 					return widget.data('page');
+				case 'threshold':
+					
 				default:
 					return widget; // TODO throw/error?
 			}
@@ -57,8 +61,11 @@ $.fn.paginate = function(arg, arg2) {
 			pageClassName: 'page',
 			pageSpacing: 0,
 			pageElement: 'div',
-			commonElements: []
+			commonElements: [],
+			animationSpeed: 250, 
+			gestureThreshold: 1000
 		};
+		var options = $.extend(defaults, options); 
 		
 		var widget, container, items;
 		
@@ -99,8 +106,6 @@ $.fn.paginate = function(arg, arg2) {
 		// TODO document this better - wrapping container in a div to act as mask because <td> overflow:hidden doesn't work
 		// TODO this is only needed on tables - can we refactor it?
 		container = $('<div>').addClass('mask').appendTo(container);
-		
-		var options = $.extend(defaults, options); 
 		
 		// init widget
 		widget.data('page', 0)
@@ -146,7 +151,7 @@ $.fn.paginate = function(arg, arg2) {
 			widget.data('page', i);
 			pageContainer.animate({
     			marginLeft: i * (options.width + options.pageSpacing) * -1
-			}, 300);
+			}, options.animationSpeed);
 			widget.trigger('page-change');
 		}
 		widget.data('goto', goToPage);
@@ -160,26 +165,43 @@ $.fn.paginate = function(arg, arg2) {
 		// stops the container movement.
 		container.bind('mousedown', function(e) {
 			widget.trigger('drag');
-			widget.data('dragStart', e);
+			widget.data('startEvent', e);
 			var initial = parseInt(pageContainer.css('margin-left')) - e.pageX;
 			container.bind('mousemove', function(e) {
 				pageContainer.css('margin-left', initial + e.pageX);
 			});
 		}).bind('mouseup mouseleave', function(e) {
-			var dragStart = widget.data('dragStart');
-			if (dragStart) {
+			console.log('evt');
+			var startEvent = widget.data('startEvent');
+			if (startEvent) {
 				widget.trigger('snap');
-				widget.removeData('dragStart');
+				widget.removeData('startEvent');
 				container.unbind('mousemove');
-				var delta = (e.pageX - dragStart.pageX) / options.width;
+				
 				var page = widget.data('page');
-				if (delta < -0.5 && page < widget.data('lastPage')) {
-					goToPage(page + 1);
-				} else if (delta > 0.5 && page > 0) {
-					goToPage(page - 1);
+				var dpx = e.pageX - startEvent.pageX;
+				var dt = e.timeStamp - startEvent.timeStamp;
+				var speed = dpx / dt * 1000;
+				
+				// flicked
+				if (Math.abs(speed) >= options.gestureThreshold) {
+					if (speed < 0 && page < widget.data('lastPage')) {
+						return goToPage(page + 1);
+					} else if (speed > 0 && page > 0) {
+						return goToPage(page - 1);
+					}
+				
+				// dragged
 				} else {
-					goToPage(page);
+					var delta = dpx / options.width;
+					if (delta < -0.5 && page < widget.data('lastPage')) {
+						return goToPage(page + 1);
+					} else if (delta > 0.5 && page > 0) {
+						return goToPage(page - 1);
+					}
 				}
+				
+				goToPage(page);
 			}
 		});
 		
