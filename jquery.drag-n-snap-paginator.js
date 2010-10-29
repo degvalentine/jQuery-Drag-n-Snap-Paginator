@@ -33,7 +33,7 @@ $.fn.paginate = function(arg, arg2) {
 				case 'goto':
 					return widget.data('goto')(arg2);
 				case 'count':
-					return widget.data('lastPage') + 1;
+					return widget.data('pageCount');
 				case 'page':
 					if ($.type(arg2) == 'number')
 						return widget.data('goto')(arg2);
@@ -55,7 +55,7 @@ $.fn.paginate = function(arg, arg2) {
 		
 		var defaults = {  
 			width: widget.width(),  
-			pageCount: 5,
+			itemsPerPage: 5,
 			buttons: true,
 			itemClassName: 'list-item',
 			pageClassName: 'page',
@@ -109,17 +109,17 @@ $.fn.paginate = function(arg, arg2) {
 		
 		// init widget
 		widget.data('page', 0)
-		      .data('lastPage', Math.floor(items.length / options.pageCount));
+		      .data('pageCount', Math.ceil(items.length / options.itemsPerPage));
 		container.css('overflow', 'hidden');
 		
 		// =========================
 		// PAGINATION
 		// =========================
 		
-		// make page container
+		// make page containerrest
 		var pageContainer = $('<div/>')
 			.addClass('page-container')
-			.width(Math.ceil(items.length/options.pageCount) * (options.width + options.pageSpacing))
+			.width(Math.ceil(items.length/options.itemsPerPage) * (options.width + options.pageSpacing))
 		    .css('overflow', 'auto')
 		    .appendTo(container);
 		
@@ -132,7 +132,7 @@ $.fn.paginate = function(arg, arg2) {
 			    .addClass(options.itemClassName);
 			   
 	        // paginate
-	        if (i % options.pageCount == 0) {
+	        if (i % options.itemsPerPage == 0) {
 	            page = $('<'+defaults.pageElement+'/>');
 	            $(defaults.commonElements).each(function(){ $(this).clone().appendTo(page) });
 	            page.addClass(options.pageClassName)
@@ -171,7 +171,6 @@ $.fn.paginate = function(arg, arg2) {
 				pageContainer.css('margin-left', initial + e.pageX);
 			});
 		}).bind('mouseup mouseleave', function(e) {
-			console.log('evt');
 			var startEvent = widget.data('startEvent');
 			if (startEvent) {
 				widget.trigger('snap');
@@ -185,7 +184,7 @@ $.fn.paginate = function(arg, arg2) {
 				
 				// flicked
 				if (Math.abs(speed) >= options.gestureThreshold) {
-					if (speed < 0 && page < widget.data('lastPage')) {
+					if (speed < 0 && page < widget.data('pageCount') - 1) {
 						return goToPage(page + 1);
 					} else if (speed > 0 && page > 0) {
 						return goToPage(page - 1);
@@ -194,7 +193,7 @@ $.fn.paginate = function(arg, arg2) {
 				// dragged
 				} else {
 					var delta = dpx / options.width;
-					if (delta < -0.5 && page < widget.data('lastPage')) {
+					if (delta < -0.5 && page < widget.data('pageCount') - 1) {
 						return goToPage(page + 1);
 					} else if (delta > 0.5 && page > 0) {
 						return goToPage(page - 1);
