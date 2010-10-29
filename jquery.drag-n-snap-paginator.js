@@ -27,22 +27,27 @@ $.fn.paginate = function(arg, arg2) {
 		if (widget.data('isPaginated')) {
 			switch (arg) {
 				case 'prev':
-					return widget.data('goto')(widget.data('page') - 1);
+					if (widget.data('has')(widget.data('page') - 1))
+						return widget.data('goto')(widget.data('page') - 1);
+					break;
 				case 'next':
-					return widget.data('goto')(widget.data('page') + 1);
+					if (widget.data('has')(widget.data('page') + 1))
+						return widget.data('goto')(widget.data('page') + 1);
+					break;
 				case 'goto':
 					return widget.data('goto')(arg2);
+				case 'has':
+					return widget.data('has')(arg2);
 				case 'count':
 					return widget.data('pageCount');
 				case 'page':
 					if ($.type(arg2) == 'number')
 						return widget.data('goto')(arg2);
 					return widget.data('page');
-				case 'threshold':
-					
-				default:
-					return widget; // TODO throw/error?
+				
+				// TODO throw/error on default?
 			}
+			return widget;
 		} else {
 			return initWidget(widget, arg);
 		}
@@ -144,8 +149,11 @@ $.fn.paginate = function(arg, arg2) {
 	        page.append(item);
 		});
 		
+		function hasPage(i) {
+			return i >= 0 && i < widget.data('pageCount');
+		}
 		function goToPage(i) {
-			if (i < 0 || i >= widget.data('last-page')) {
+			if (!hasPage(i)) {
 				return false; // TODO throw/error?
 			}
 			widget.data('page', i);
@@ -154,7 +162,7 @@ $.fn.paginate = function(arg, arg2) {
 			}, options.animationSpeed);
 			widget.trigger('page-change');
 		}
-		widget.data('goto', goToPage);
+		widget.data('goto', goToPage).data('has', hasPage);
 		
 		
 		// =========================
