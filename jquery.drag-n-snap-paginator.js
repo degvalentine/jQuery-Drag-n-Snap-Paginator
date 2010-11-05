@@ -94,6 +94,7 @@ $.fn.paginate = function() {
 					header.css('width', header.width()+'px');
 					defaults.commonElements.push($('<col/>').width(header.width())); // TODO copy all other th attrs?
 				});
+				headers.parent().remove();
 				headerRow.append(headers);
 			}
 			widget.children('thead').remove();
@@ -115,7 +116,7 @@ $.fn.paginate = function() {
 		
 		// TODO document this better - wrapping container in a div to act as mask because <td> overflow:hidden doesn't work
 		// TODO this is only needed on tables - can we refactor it?
-		container = $('<div>').addClass('mask').appendTo(container);
+		container = $('<div>').addClass('mask').css('margin', 0).css('padding', 0).appendTo(container);
 		
 		// init widget
 		widget.data('page', 0)
@@ -130,7 +131,7 @@ $.fn.paginate = function() {
 		var pageContainer = $('<div/>')
 			.addClass('page-container')
 			.width(Math.ceil(items.length/options.itemsPerPage) * (options.width + options.pageSpacing))
-		    .css('overflow', 'auto')
+		    .css('overflow', 'auto').css('margin', 0).css('padding', 0)
 		    .appendTo(container);
 		
 		var page;
@@ -165,7 +166,7 @@ $.fn.paginate = function() {
 			pageContainer.animate({
     			marginLeft: i * (options.width + options.pageSpacing) * -1
 			}, options.animationSpeed);
-			widget.trigger('page-change');
+			widget.trigger('page-change');// TODO only trigger if actually changing page, not snapping back
 		}
 		widget.data('goto', goToPage).data('has', hasPage);
 		
