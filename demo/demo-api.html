@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Table Demo</title>
+	<title>API Demo</title>
 	
 	<meta charset="UTF-8">
 	
 	<script type="text/javascript" src="jquery/jquery-1.4.2.min.js"></script>
-	
-	<!-- jQuery UI - redmond theme -->
 	<script type="text/javascript" src="jquery/jquery-ui/jquery-ui-1.8.4.custom.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="jquery/jquery-ui/hot-sneaks/jquery-ui-1.8.5.custom.css">
+	<script type="text/javascript" src="jquery/jquery.disableTextSelect.js"></script>
 	
 	<script type="text/javascript" src="../jquery.drag-n-snap-paginator.js"></script>
 	
@@ -17,6 +16,7 @@
 	a {
 		text-decoration:none;
 		overflow:auto;
+		color:blue;
 	}
 	li {
 		list-style:none;
@@ -24,13 +24,13 @@
 		margin-bottom:10px;
 		padding:5px 5px 0 5px;
 	}
-	#demo-list {
+	#demo {
 		margin:0;
 		padding:0;
 		float:left;
 		overflow:auto;
 	}
-	#demo-list, #buttons {
+	#demo, #buttons {
 		width:500px;
 	}	
 	.preview {
@@ -46,53 +46,35 @@
 	</style>
 	<script type="text/javascript">
 	$(function(){
-		var widget = $('#demo-list').paginate({itemsPerPage:4, pageSpacing:50});
-		$('#prev').button().click(function(){
-			 widget.paginate('prev');
-		});
-		$('#next').button().click(function(){
-			 widget.paginate('next');
-		});
-	});
-
-	// TODO refresh buttons with enable/disabled state
-	
-	/*
-	var buttons = $('<div/>').data('page', 0).addClass('nav-buttons').appendTo(container);
-	var prevBtn = $('<button>prev</button>').data('page', widget.data('lastPage')).click(prev).appendTo(buttons);
-	var c = widget.data('lastPage');
-	for (i = 0; i <= c; ++i) {
-		$('<button>'+(i+1)+'</button>')
-			.data('page', i)
-			.click(function(){
-				goToPage($(this).data('page')); 
-			})
-			.appendTo(buttons);
-	}
-	var nextBtn = $('<button>next</button>').click(next).appendTo(buttons);
-	if ($.ui) {
-		buttons.find('button').button(); // TODO should we automatically widgetize the buttons?
-	}
-	var refreshButtons = function() {
-		prevBtn[0].disabled = (widget.data('page') <= 0);
-		nextBtn[0].disabled = (widget.data('page') >= widget.data('lastPage'));
-		if ($.ui) {
-			buttons.find('button').buPREVtton('refresh');
+		var widget = $('#demo').paginate({itemsPerPage:4, pageSpacing:50}).disableTextSelect();
+		var buttons = $('#buttons');
+		var btnPrev = $('<button>PREV</button>').appendTo(buttons).click(function(){ widget.paginate('prev') });
+		var btn1 = $('<button>1</button>').appendTo(buttons).click(function(){ widget.paginate('goto', 0) });
+		var btn2 = $('<button>2</button>').appendTo(buttons).click(function(){ widget.paginate('goto', 1) });
+		var btn3 = $('<button>3</button>').appendTo(buttons).click(function(){ widget.paginate('goto', 2) });
+		var btnNext = $('<button>NEXT</button>').appendTo(buttons).click(function(){ widget.paginate('next') });
+		function refreshButtons(){
+			var page = widget.paginate('page');
+			buttons.children().button('enable').removeClass('ui-state-hover ui-state-active');
+			if (page == 0) {
+				btnPrev.button('disable');
+				btn1.button('disable').addClass('ui-state-active');
+			} else if (page == 1) {
+				btn2.button('disable').addClass('ui-state-active');
+			} else {
+				btn3.button('disable').addClass('ui-state-active');
+				btnNext.button('disable');
+			}
 		}
-	};
-	refreshButtons();
-	widget.bind('page-change', refreshButtons);
-	*/
+		buttons.children().button().click(refreshButtons);
+		widget.bind('page-change', refreshButtons);
+		refreshButtons();
+	});
 	</script>
 </head>
 <body>
-
-<div id="buttons" class="ui-widget-content ui-corner-all">
-	<button id="prev">PREV</button>
-	<button id="next">NEXT</button>
-</div>
-
-<ul id="demo-list">
+<div id="buttons" class="ui-widget-content ui-corner-all"></div>
+<ul id="demo">
 	<li>
 		<div class="preview">
 			<a href="http://www.csszengarden.com/?cssfile=213/213.css"><img src="http://www.mezzoblue.com/zengarden/screenshots/213.jpg" width="160" height="104" alt="Under the Sea!"></a>
@@ -122,7 +104,7 @@
 		<p><a href="http://www.pixel-house.com.au">Justin Gray</a>, <span class="country">Australia</span></p>
 	</li>
 	<li>
-		<div class="preview">PREV
+		<div class="preview">
 			<a href="http://www.csszengarden.com/?cssfile=209/209.css"><img src="http://www.mezzoblue.com/zengarden/screenshots/209.jpg" width="160" height="104" alt="CSS Co., Ltd."></a>
 		</div>
 		<h3><a href="http://www.csszengarden.com/?cssfile=209/209.css">CSS Co., Ltd.</a></h3>
