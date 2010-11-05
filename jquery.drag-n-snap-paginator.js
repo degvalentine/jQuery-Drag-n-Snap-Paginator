@@ -92,7 +92,7 @@ $.fn.paginate = function() {
 				headers.each(function() {
 					header = $(this);
 					header.css('width', header.width()+'px');
-					defaults.commonElements.push($('<col/>').width(header.width())); // TODO copy all other th attrs?
+					defaults.commonElements.push($('<col/>').width(header.outerWidth())); // TODO copy all other th attrs?
 				});
 				headers.parent().remove();
 				headerRow.append(headers);
