@@ -12,47 +12,45 @@
 <link type="text/css" rel="stylesheet" href="jquery/jquery-ui/hot-sneaks/jquery-ui-1.8.5.custom.css">
 
 <style type="text/css">
+#demos {
+	width:1080px;
+}
 iframe {
 	border:none;
 }
 div.demo p {
 	margin-top:0;
 }
-div.demo.profit {
-	background-image:none;
-	background-color:black;
-}
 </style>
 <script type="text/javascript">
 $(function() {
-	$( "#accordion" ).accordion();
+	$("#demos").tabs();
 });
 </script>
 </head>
 <body>
 
-<div id="accordion">
-	<h3><a href="#api">API Demo</a></h3>
-	<div class="demo api">
+<div id="demos">
+	<ul>
+		<li><a href="#api">API Demo</a></li>
+		<li><a href="#table">Table Demo</a></li>
+		<li><a href="#android">Android Demo</a></li>
+	</ul>
+	<div id="api" class="demo api">
 		<p>The paginated widget has methods that can be used to create custom navigation.<br />
 		   The buttons below work by calling the widget's "goto", "next", "prev", "page", and "has" methods.  
 		</p>
 		<iframe src="demo-api.html" width="1000" height="600"></iframe>
 	</div>
-	
-	<h3><a href="#table">Table Demo</a></h3>
-	<div class="demo table">
+	<div id="table" class="demo table">
 		<p>Tables get special treatment to preserve columns and headers.<br />
 		   Push the "Paginate" button to activate the widget.
 		</p>
 		<iframe src="demo-table.html" width="1000" height="600"></iframe>
 	</div>
-	
-	<h3><a href="#android">Android Demo</a></h3>
-	<div class="demo android">
+	<div id="android" class="demo android">
 		<iframe src="demo-android.html" width="1000" height="600"></iframe>
 	</div>
-	
 </div>
 
 </body>
