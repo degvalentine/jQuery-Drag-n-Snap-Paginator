@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Drag-n-Snap Paginator</title>
-	
-	<meta charset="UTF-8">
-	
-	<script type="text/javascript" src="jquery/jquery-1.4.2.min.js"></script>
-	
-	<!-- jQuery UI - redmond theme -->
-	<script type="text/javascript" src="jquery/jquery-ui/jquery-ui-1.8.4.custom.min.js"></script>
-	<link type="text/css" rel="stylesheet" href="jquery/jquery-ui/hot-sneaks/jquery-ui-1.8.5.custom.css">
-	
-	<style type="text/css">
-		iframe {
-			border:none;
-		}
-	</style>
-	<script type="text/javascript">
-	$(function() {
-		$( "#accordion" ).accordion();
-	});
-	</script>
+<title>Drag-n-Snap Paginator</title>
+
+<meta charset="UTF-8">
+
+<script type="text/javascript" src="jquery/jquery-1.4.2.min.js"></script>
+
+<!-- jQuery UI - redmond theme -->
+<script type="text/javascript" src="jquery/jquery-ui/jquery-ui-1.8.4.custom.min.js"></script>
+<link type="text/css" rel="stylesheet" href="jquery/jquery-ui/hot-sneaks/jquery-ui-1.8.5.custom.css">
+
+<style type="text/css">
+iframe {
+	border:none;
+}
+div.demo p {
+	margin-top:0;
+}
+div.demo.profit {
+	background-image:none;
+	background-color:black;
+}
+</style>
+<script type="text/javascript">
+$(function() {
+	$( "#accordion" ).accordion();
+});
+</script>
 </head>
 <body>
 
 <div id="accordion">
-	<h3><a href="#scripting">Scripting Demo</a></h3>
-	<div>
-		<p>talk about scripting here - mention buttons are separate</p>
-		<iframe src="demo-scripting.html" width="1000" height="600"></iframe>
+	<h3><a href="#api">API Demo</a></h3>
+	<div class="demo api">
+		<p>The paginated widget has methods that can be used to create custom navigation.<br />
+		   The buttons below work by calling the widget's "goto", "next", "prev", "page", and "has" methods.  
+		</p>
+		<iframe src="demo-api.html" width="1000" height="600"></iframe>
 	</div>
 	
 	<h3><a href="#table">Table Demo</a></h3>
-	<div>
-		<p>Tables get special treatment to preserve columns and headers.</p>
+	<div class="demo table">
+		<p>Tables get special treatment to preserve columns and headers.<br />
+		   Push the "Paginate" button to activate the widget.
+		</p>
 		<iframe src="demo-table.html" width="1000" height="600"></iframe>
 	</div>
 	
-	<h3><a href="#profit">ProFIT Demo</a></h3>
-	<div>
-		<iframe src="demo-profit.html" width="1000" height="600"></iframe>
-	</div>
-	
 	<h3><a href="#android">Android Demo</a></h3>
-	<div>
+	<div class="demo android">
 		<iframe src="demo-android.html" width="1000" height="600"></iframe>
 	</div>
 	
