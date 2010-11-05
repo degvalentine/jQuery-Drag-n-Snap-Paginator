@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>ProFIT</title>
+<link rel="stylesheet" type="text/css" href="https://profit-local-ky.farheap.com/css/style.css" media="screen" />
+
+<!-- jQuery - booyah! -->
+<script type="text/javascript" src="jquery/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../jquery.drag-n-snap-paginator.js"></script>
+<script type="text/javascript">
+$(function(){
+	var widget = $('#datagrid').paginate({itemsPerPage:7});
+	var pageLabel = $('#pageLabel');
+	$('#navBtnFirst').click(function(){
+		widget.paginate('goto', 0);
+	});
+	$('#navBtnPrev').click(function(){
+		widget.paginate('prev');
+	});
+	$('#navBtnNext').click(function(){
+		widget.paginate('next');
+	});
+	$('#navBtnLast').click(function(){
+		widget.paginate('goto', widget.paginate('count') - 1);
+	});
+	function updatePageLabel() {
+		pageLabel.html('Page ' + (widget.paginate('page') + 1) + ' of ' + widget.paginate('count'));
+	}
+	$('.navBtn').click(updatePageLabel);
+	widget.bind('page-change', updatePageLabel);
+})
+</script>
+
+</head>
+<body>
+<div id="touchscreen_frame" style="height:725px">
+<div id="header">
+	<div id="title">
+		<span class="title">ProFIT</span><br />
+		<span class="titleTagLine">Product Fulfillment and Information Tracking</span>
+	</div>
+	<div id="location">
+		<span class="header_field">Location</span><br />
+		<span class="header_value">JQuery Demo of ProFIT Local</span>
+	</div>
+	<div id="logout">
+		<button class="tan">Logout</button>
+	</div>
+	<div id="session">
+		<div style="float: left; width: 100px;">
+			<span class="header_field">Operator</span><br />
+			<span class="header_value">Degory Valentine</span>
+		</div>
+		<div style="float: right;">
+			<button class="small green" style="font-size: 14px; height: 95%;">Home</button>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="body">
+	<div id="station">
+		<div class="cell" style="width: 33%; text-align: center;">
+			<span class="station_field">Station Type:</span> Slitter
+		</div>
+		<div class="cell" style="width: 33%; text-align: center;">
+			<span class="station_field">Station Name:</span> Slitter 1
+		</div>
+		<div class="cell" style="width: 33%; text-align: center;">
+			<span class="station_field">Station IP:</span>
+			<span id="profit-client-ip-address">10.1.6.79</span>
+			<span style="display: block; font-size: xx-small" id="profit-client-mac-address" class="profit-client-mac-address"></span>
+		</div>
+	</div>
+	<div class="datagrid" style="overflow:hidden">
+		<input type="hidden" id="reload_url" value="?link=station" />
+		<input type="hidden" id="current_page" value="1" />
+		<input type="hidden" id="num_pages" value="5" />
+		<h2>Select Press Sheet to Cut:</h2>
+		<table id="datagrid" cellspacing="0" cellpadding="0" hilite="0">
+			<tr>
+				<th style="width:17px">&nbsp;</th>
+				<th style="width:192px">ID</th>
+				<th style="width:531px">Product</th>
+				<th style="width:77px">QTY</th>
+				<th style="width:117px">&nbsp;</th>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-138089</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">20 hours 20 min ago</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-1F-4</span></span></td>
+				<td><div style="display: inline;">50</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-74G1-11741</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">1000</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-74G1-20939</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">500</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-32698</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">40</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-64454</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-78519</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-137130</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-142899</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">50</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K2-188885</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">100</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-251772</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-274878</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-1F-4</span></span></td>
+				<td><div style="display: inline;">50</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-295733</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-314554</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-1F-4</span></span></td>
+				<td><div style="display: inline;">10</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-348843</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-353112</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">50</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K2-541204</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">250</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K3-549979</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None - <span style="color: red;">Mailing Services</span></span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">500</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-598987</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K3-600535</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">500</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-691802</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-697009</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-1F-4</span></span></td>
+				<td><div style="display: inline;">10</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-715611</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K2-744454</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">250</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-777872</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-74G1-811256</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-9</span></span></td>
+				<td><div style="display: inline;">500</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-821520</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT - 1 Side - Full</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-1F-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-K3-836989</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">100</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-905088</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">30</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-918202</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: #FF0000;">3 hours 39 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">8.5x11GC-2FN-2</span></span></td>
+				<td><div style="display: inline;">20</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td><div style="display: inline;">&nbsp;</div></td>
+				<td><div style="display: inline;">KY-IN1-918787</div><br /><span class="subtext"><div style="width: 100%;"><div style="float: left; font-size: 11px; text-align: left;"><span style="color: orange;">4 hours 24 min remaining</span> </div> <div style="float: right; font-size: 11px; text-align: right;">11/4/10&nbsp;</div></div></span></td>
+				<td><div style="display: inline;"><span style="font-size: 16px; padding: 0 0 0 10px; margin-top: 6px;">12PT -  2 Sides - Full/None</span></div><br /><span class="subtext"><span style="font-size: 16px; padding: 0 0 0 10px;">5.5x8.5GC-2FN-4</span></span></td>
+				<td><div style="display: inline;">10</div></td>
+				<td><button class="small green">Select</button></td>
+			</tr>
+			<tr height="60px">
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+			</tr>
+			<tr height="60px">
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+			</tr>
+			<tr height="60px">
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+			</tr>
+			<tr height="60px">
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+			</tr>
+			<tr height="60px">
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+				<td class="row_data">&nbsp;</td>
+			</tr>	
+		</table>
+	
+		<div class="paginator">
+			<button class="small red" name="reload" style="float: right;">Reload</button>
+			<button class="small tan navBtn" id="navBtnFirst" name="first">First</button>
+			<button class="small tan navBtn" id="navBtnPrev" name="prev">Prev</button>
+			<label id="pageLabel">Page 1 of 5</label>
+			<button class="small tan navBtn" id="navBtnNext" name="next">Next</button>
+			<button class="small tan navBtn" id="navBtnLast" name="last">Last</button>
+		</div>
+	
+	</div>
+</div>
+
+<div id="clientVersion">
+	Version:<span id="profit-client-version" class="profit-client-version"> jQuery Demo</span>
+</div>
+<div id="ProFITVersion">
+	ProFIT:<span id="profit-version">3.22.1-r4</span>
+</div>
+</div>
+</body>
+</html>
