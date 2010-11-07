@@ -66,6 +66,7 @@ $.fn.paginate = function() {
 		var defaults = {  
 			width: widget.width(),  
 			itemsPerPage: 5,
+			startPage: 0, 
 			buttons: true,
 			itemClassName: 'list-item',
 			pageClassName: 'page',
@@ -119,7 +120,7 @@ $.fn.paginate = function() {
 		container = $('<div>').addClass('mask').css('margin', 0).css('padding', 0).appendTo(container);
 		
 		// init widget
-		widget.data('page', 0)
+		widget.data('page', options.startPage)
 		      .data('pageCount', Math.ceil(items.length / options.itemsPerPage));
 		container.css('overflow', 'hidden');
 		
@@ -220,6 +221,7 @@ $.fn.paginate = function() {
 		
 		// configure widget
 		container.width(pageContainer.children(':first').outerWidth());
+		pageContainer.css('margin-left', options.startPage * (options.width + options.pageSpacing) * -1);
 		widget.data('isPaginated', true);
 		
 		return widget;
