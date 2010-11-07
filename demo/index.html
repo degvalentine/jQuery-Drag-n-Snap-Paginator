@@ -21,6 +21,14 @@ iframe {
 div.demo p {
 	margin-top:0;
 }
+#android-tab {
+	height:42px;
+	padding: 0px;
+	overflow:hidden;
+}
+#android-tab img {
+	margin: 10px 10px 0px;
+}
 </style>
 <script type="text/javascript">
 $(function() {
@@ -34,7 +42,7 @@ $(function() {
 	<ul>
 		<li><a href="#api">API Demo</a></li>
 		<li><a href="#table">Table Demo</a></li>
-		<li><a href="#android">Android Demo</a></li>
+		<li><a id="android-tab" href="#android"><img src="assets/droid-head.png" /></a></li>
 	</ul>
 	<div id="api" class="demo api">
 		<p>The paginated widget has methods that can be used to create custom navigation.<br />
@@ -49,7 +57,7 @@ $(function() {
 		<iframe src="demo-table.html" width="1000" height="600"></iframe>
 	</div>
 	<div id="android" class="demo android">
-		<iframe src="demo-android.html" width="1000" height="600"></iframe>
+		<iframe src="demo-android.html" width="1000" height="750"></iframe>
 	</div>
 </div>
 
