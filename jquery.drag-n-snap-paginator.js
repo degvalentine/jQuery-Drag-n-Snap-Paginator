@@ -1,7 +1,9 @@
 /**
  * @author Deg Valentine
  * 
- * Paginates list into theme-rollable pages. 
+ * Paginates list into theme-rollable pages.
+ * 
+ * [document here]
  * 
  * TODO add item access functions, such as widget.paginate('get', page, index)?
  * TODO should this widget take a width, or just use info from DOM style?
@@ -9,9 +11,8 @@
  * TODO choose scroll axis x/y
  * TODO make slide in initially to let user know interaction exists (configurable)
  * TODO document custom events: page-change, drag, snap
- * TODO add custom event on method call?
  * TODO refactor to functions more
- * TODO add animation easing with small bounce (does iPhone do this too?)
+ * TODO enable custom animations? (easing plugin, etc)
  * TODO add flick? scroll speed would start at release velocity and decline till it snaps
  */
 (function($){  
@@ -163,11 +164,10 @@ $.fn.paginate = function() {
 			if (!hasPage(i)) {
 				return false; // TODO throw/error?
 			}
+			var margin = i * (options.width + options.pageSpacing) * -1;
+			widget.trigger({type:'page-change', oldPage:widget.data('page'), newPage:i, pixelDelta:parseInt(pageContainer.css('margin-left')) - margin});
 			widget.data('page', i);
-			pageContainer.animate({
-    			marginLeft: i * (options.width + options.pageSpacing) * -1
-			}, options.animationSpeed);
-			widget.trigger('page-change');// TODO only trigger if actually changing page, not snapping back
+			pageContainer.animate({marginLeft: margin}, options.animationSpeed);
 		}
 		widget.data('goto', goToPage).data('has', hasPage);
 		
@@ -179,7 +179,7 @@ $.fn.paginate = function() {
 		// Mouseup or mouseleave snaps the container to the nearest page and 
 		// stops the container movement.
 		container.bind('mousedown', function(e) {
-			widget.trigger('drag');
+			widget.trigger({type:'drag', dragStartEvent:e});
 			widget.data('startEvent', e);
 			var initial = parseInt(pageContainer.css('margin-left')) - e.pageX;
 			container.bind('mousemove', function(e) {
@@ -188,7 +188,6 @@ $.fn.paginate = function() {
 		}).bind('mouseup mouseleave', function(e) {
 			var startEvent = widget.data('startEvent');
 			if (startEvent) {
-				widget.trigger('snap');
 				widget.removeData('startEvent');
 				container.unbind('mousemove');
 				
@@ -197,6 +196,8 @@ $.fn.paginate = function() {
 				var dt = e.timeStamp - startEvent.timeStamp;
 				var speed = dpx / dt * 1000;
 				
+				widget.trigger({type:'snap', dragStartEvent:startEvent, dragStopEvent:e, dragPixels:dpx, dragDuration:dt, dragSpeed:speed});
+
 				// flicked
 				if (Math.abs(speed) >= options.gestureThreshold) {
 					if (speed < 0 && page < widget.data('pageCount') - 1) {
