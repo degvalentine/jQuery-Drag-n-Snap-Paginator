@@ -10,10 +10,34 @@
 
 <script type="text/javascript">
 $(function(){
-	var widget = $('#droid-desktop').paginate({itemsPerPage:4, startPage:2}).disableTextSelect();
+	$(document).disableTextSelect();
+	var background = $('#droid-background');
+	var speed = 175;
+	background.css('margin-left', -190);
+	var widget = $('#droid-desktop').paginate({itemsPerPage:4, startPage:2, animationSpeed:speed});
+	var ratio = .3;
+	
+	widget.bind('drag', function(e){
+		var initial = parseInt(background.css('margin-left')) - (e.dragStartEvent.pageX * ratio);
+		$(window).bind('mousemove', function(e) {
+			background.css('margin-left', initial + (e.pageX * ratio));
+		});
+	}).bind('snap', function(){
+		$(window).unbind('mousemove');
+	}).bind('page-change', function(e){
+		background.animate({marginLeft: parseInt(background.css('margin-left')) - (e.pixelDelta * ratio)}, speed);
+	});
 });
 </script>
 <style type="text/css">
+html, body {
+	margin:0;
+	padding:0;
+}
+#droid-container {
+	width:406px;
+	margin:auto;
+}
 #droid {
 	background: url("assets/droid-phone.png") no-repeat;
 	width: 406px;
@@ -37,17 +61,15 @@ $(function(){
 .droid-row-item.fullrow {
 	width:300px;
 }
-.droid-row {
+.droid-row, .droid-row-item {
 	height:100px;
 	overflow:hidden;
 }
 .droid-row-item {
-	margin:15px 5px;
-}
-.droid-row-item {
-	width:65px;
-	height:65px;
+	width:75px;
+	text-align:center;
 	float:left;
+	margin-top:15px;
 }
 #droid-desktop {
 	z-index:100;
@@ -70,7 +92,14 @@ $(function(){
 		<div class="droid-row"></div>
 		<div class="droid-row"></div>
 		<div class="droid-row"></div>
-		<div class="droid-row"></div>
+		<div class="droid-row">
+			<div class="droid-row-item"></div>
+			<div class="droid-row-item">
+				<img class="droid-row-item-bar" src="assets/icon-xkcd.png" />
+			</div>
+			<div class="droid-row-item"></div>
+			<div class="droid-row-item"></div>
+		</div>
 
 		<div class="droid-row">
 			<div class="droid-row-item fullrow">
